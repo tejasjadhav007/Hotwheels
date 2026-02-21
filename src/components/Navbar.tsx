@@ -103,11 +103,7 @@ export function Navbar({ onNavigate }: NavbarProps) {
                   onNavigate(item.id);
                   setMobileMenuOpen(false);
                 }}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                  currentPage === item.id
-                    ? 'bg-white/20 font-semibold'
-                    : 'hover:bg-white/10'
-                }`}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all hover:bg-white/10"
               >
                 <item.icon className="w-5 h-5" />
                 {item.label}

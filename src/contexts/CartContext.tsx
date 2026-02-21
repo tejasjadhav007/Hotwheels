@@ -1,11 +1,11 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { cartAPI, CartItem as APICartItem, Product } from '../services/api';
+import { cartAPI, CartItem as APICartItem } from '../services/api';
 import { useAuth } from './AuthContext';
 
 interface CartContextType {
   cartItems: APICartItem[];
   loading: boolean;
-  addToCart: (product: Product, quantity?: number) => Promise<void>;
+  addToCart: (product: { id: string | number }, quantity?: number) => Promise<void>;
   removeFromCart: (cartItemId: number) => Promise<void>;
   updateQuantity: (cartItemId: number, quantity: number) => Promise<void>;
   clearCart: () => Promise<void>;
@@ -44,14 +44,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const addToCart = async (product: Product, quantity: number = 1) => {
+  const addToCart = async (product: { id: string | number }, quantity: number = 1) => {
     if (!user) {
       alert('Please login to add items to cart');
       return;
     }
 
     try {
-      await cartAPI.add(product.id, quantity);
+      await cartAPI.add(Number(product.id), quantity);
       await refreshCart();
     } catch (error) {
       console.error('Error adding to cart:', error);

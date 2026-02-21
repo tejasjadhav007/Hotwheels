@@ -41,7 +41,7 @@ export function CartPage({ onNavigate }: CartPageProps) {
               >
                 <div className="flex flex-col sm:flex-row gap-6">
                   <img
-                    src={item.product.imageUrl}
+                    src={item.product.image_url}
                     alt={item.product.name}
                     className="w-full sm:w-32 h-32 object-cover rounded-lg"
                   />
@@ -50,7 +50,7 @@ export function CartPage({ onNavigate }: CartPageProps) {
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="text-xl font-bold text-gray-900">{item.product.name}</h3>
                       <button
-                        onClick={() => removeFromCart(item.product.id)}
+                        onClick={() => removeFromCart(item.id)}
                         className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-all"
                         title="Remove from cart"
                       >
@@ -67,7 +67,7 @@ export function CartPage({ onNavigate }: CartPageProps) {
                         <span className="text-gray-700 font-semibold">Quantity:</span>
                         <div className="flex items-center border-2 border-gray-200 rounded-lg">
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             disabled={item.quantity <= 1}
                             className="p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           >
@@ -75,7 +75,7 @@ export function CartPage({ onNavigate }: CartPageProps) {
                           </button>
                           <span className="px-4 py-2 font-bold text-gray-900">{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             disabled={item.quantity >= item.product.stock}
                             className="p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           >

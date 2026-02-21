@@ -15,7 +15,7 @@ export function CheckoutPage({ onNavigate }: CheckoutPageProps) {
   const [orderPlaced, setOrderPlaced] = useState(false);
 
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
-    fullName: user?.fullName || '',
+    fullName: user ? `${user.first_name} ${user.last_name}`.trim() : '',
     addressLine1: '',
     addressLine2: '',
     city: '',
@@ -299,7 +299,7 @@ export function CheckoutPage({ onNavigate }: CheckoutPageProps) {
                       {cartItems.map((item) => (
                         <div key={item.product.id} className="flex gap-4">
                           <img
-                            src={item.product.imageUrl}
+                            src={item.product.image_url}
                             alt={item.product.name}
                             className="w-16 h-16 object-cover rounded-lg"
                           />
