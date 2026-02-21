@@ -55,30 +55,10 @@ GRANT ALL PRIVILEGES ON DATABASE hotwheels_db TO hotwheels_user;
 
 ## 4) Deployment guide (production)
 
-### Backend deployment (Django)
-1. Set `DEBUG=False` in `backend/.env`.
-2. Set `ALLOWED_HOSTS` to your domain.
-3. Run migrations in production:
-   ```bash
-   python manage.py migrate
-   ```
-4. Serve with Gunicorn:
-   ```bash
-   pip install gunicorn
-   gunicorn hotwheels_api.wsgi:application --bind 0.0.0.0:8000
-   ```
-5. Put Nginx in front of Gunicorn, enable HTTPS, and route `/api` to backend.
+The old long deployment section was removed.
 
-### Frontend deployment (Vite)
-1. Set production API URL in environment:
-   ```env
-   VITE_API_URL=https://api.your-domain.com/api
-   ```
-2. Build static assets:
-   ```bash
-   npm run build
-   ```
-3. Host `dist/` with Nginx, Vercel, Netlify, or S3+CloudFront.
+Use the new simple guide here:
+- `DEPLOYMENT_GUIDE.md`
 
 ## 5) Notes
 - Backend API docs are available at `/swagger/` and `/redoc/`.
