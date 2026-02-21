@@ -9,7 +9,7 @@ interface ContactPageProps {
 export function ContactPage({ onNavigate }: ContactPageProps) {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    name: user?.fullName || '',
+    name: user ? `${user.first_name} ${user.last_name}`.trim() : '',
     email: user?.email || '',
     subject: '',
     message: '',
@@ -22,7 +22,7 @@ export function ContactPage({ onNavigate }: ContactPageProps) {
     setTimeout(() => {
       setSubmitted(false);
       setFormData({
-        name: user?.fullName || '',
+        name: user ? `${user.first_name} ${user.last_name}`.trim() : '',
         email: user?.email || '',
         subject: '',
         message: '',

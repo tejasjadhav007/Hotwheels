@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, CreditCard as Edit, Trash2, Package, Users, ShoppingBag, MessageSquare, Save, X } from 'lucide-react';
+import { Plus, CreditCard as Edit, Trash2, Package, ShoppingBag, MessageSquare, Save, X } from 'lucide-react';
 import { mockProducts, mockCategories } from '../data/mockData';
 import { Product } from '../types';
 
@@ -7,7 +7,7 @@ interface AdminPageProps {
   onNavigate: (page: string) => void;
 }
 
-export function AdminPage({ onNavigate }: AdminPageProps) {
+export function AdminPage({ onNavigate: _onNavigate }: AdminPageProps) {
   const [activeTab, setActiveTab] = useState<'products' | 'orders' | 'messages'>('products');
   const [products, setProducts] = useState<Product[]>(mockProducts);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -109,9 +109,9 @@ function ProductsTab({
   const handleSave = () => {
     if (isAdding) {
       const newProduct: Product = {
+        ...(formData as Product),
         id: `product-${Date.now()}`,
         slug: formData.name?.toLowerCase().replace(/\s+/g, '-') || '',
-        ...formData as Product,
       };
       setProducts([...products, newProduct]);
     } else if (editingProduct) {

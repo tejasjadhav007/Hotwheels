@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny, IsAdminUser
 from django.db.models import Q
 from .models import Category, Product, CartItem, Order, OrderItem, ContactMessage
 from .serializers import (
@@ -15,6 +15,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'slug'
+    pagination_class = None
+
+    def get_permissions(self):
+        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
+            return [IsAdminUser()]
+        return [permission() for permission in self.permission_classes]
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -22,6 +28,12 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'slug'
+    pagination_class = None
+
+    def get_permissions(self):
+        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
+            return [IsAdminUser()]
+        return [permission() for permission in self.permission_classes]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -52,6 +64,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 class CartItemViewSet(viewsets.ModelViewSet):
     serializer_class = CartItemSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = None
 
     def get_queryset(self):
         return CartItem.objects.filter(user=self.request.user).select_related('product')
@@ -78,6 +91,7 @@ class CartItemViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = None
 
     def get_queryset(self):
         user = self.request.user
@@ -140,10 +154,11 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
     queryset = ContactMessage.objects.all()
     serializer_class = ContactMessageSerializer
     permission_classes = [AllowAny]
+    pagination_class = None
 
     def get_permissions(self):
         if self.action in ['list', 'update', 'partial_update', 'destroy']:
-            return [IsAuthenticated()]
+            return [IsAdminUser()]
         return [AllowAny()]
 
     def perform_create(self, serializer):

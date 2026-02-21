@@ -30,7 +30,16 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
         setError('Please enter your full name');
         return;
       }
-      const success = await signup(email, password, fullName);
+      const [firstName, ...rest] = fullName.trim().split(' ');
+      const lastName = rest.join(' ');
+      const username = email.split('@')[0];
+      const success = await signup({
+        username,
+        email,
+        password,
+        first_name: firstName || username,
+        last_name: lastName,
+      });
       if (success) {
         onNavigate('home');
       } else {
